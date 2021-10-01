@@ -1,8 +1,10 @@
-import os.path as path
 import lane_detection
+from ecu.telemetry import read_front_camera_stream
 
 if __name__ == '__main__':
-    current_dir = path.dirname(__file__)
-    input_dir = path.join(current_dir, 'input', 'lane')
-    test_file = path.join(input_dir, 'Lane Detection Test Video 01.mp4')
-    lane_detection.detect_lane(test_file)
+    front_camera_stream = read_front_camera_stream()
+    try:
+        lane_detection.detect_lane(front_camera_stream, debug=True)
+    finally:
+        front_camera_stream.release()
+
